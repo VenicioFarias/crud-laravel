@@ -95,12 +95,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <select name="estado" id="estado">
+                            {{-- <select name="estado" id="estado">
                                 <option value="">selecione</option>
                                 @foreach ($estados as $estado )
                                 <option value="{{$estado->id}}">{{$estado->nome}}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
 
                             <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
 
