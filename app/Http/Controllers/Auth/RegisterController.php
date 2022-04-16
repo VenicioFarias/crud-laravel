@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Estado;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -64,9 +65,9 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Array $data)
     {
-        //  $teste = User::get();
+    
             return User::create([
             'name' => $data['name'],
             'cpf' => $data['cpf'],
@@ -80,10 +81,10 @@ class RegisterController extends Controller
 
         ]);
 
-        // return view('auth.register');
+        return view('auth.register');
     }
 
-  
+
 
 
 

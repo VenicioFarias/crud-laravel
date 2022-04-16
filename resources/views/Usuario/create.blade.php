@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -8,7 +9,7 @@
                 <div class="card-header">{{ __('Cadastro de Usuario') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('usuario-create') }}">
+                    <form method="POST" action="{{ route('usuario-store') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -95,36 +96,24 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="estado" type="text" class="form-control @error('estado') is-invalid @enderror" name="estado" value="{{ old('estado') }}" required autocomplete="estado" autofocus>
-
-                                    @error('estado')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
+                                <label for="estado" class="col-md-4 col-form-label text-md-right m-2">{{ __('Estado') }}</label>
+                                <select data-token="{{ csrf_token() }}" onchange="mudarCidade(this)"  class="form-control-sm col-md-4" name="uf_id" id="uf_id" required>
+                                    <option value="">selecione</option>
+                                    @foreach ($listaEstados as $estado )
+                                    <option value="{{$estado->CodigoUf}}">{{$estado->Nome}}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group row">
-                                <label for="cidade" class="col-md-4 col-form-label text-md-right">{{ __('Cidade') }}</label>
+                                <label for="cidade" class="col-md-4 col-form-label text-md-right m-2">{{ __('Municipio') }}</label>
+                                    <select class="form-control-sm col-md-4" name="cidade" id="cidade_id" required>
+                                        <option value="">selecione</option>
+                                    </select>
+                            </div>
 
-                                    <div class="col-md-6">
-                                        <input id="cidade" type="text" class="form-control @error('cidade') is-invalid @enderror" name="cidade" value="{{ old('cidade') }}" required autocomplete="cidade" autofocus>
-
-                                        @error('cidade')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                        {{-- <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right ">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -143,13 +132,14 @@
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary m-3">
                                     {{ __('Cadastrar') }}
                                 </button>
+                                <a href="{{ route('home') }}" class="btn btn-danger" >Cancelar</a>
                             </div>
                         </div>
                     </form>
@@ -157,5 +147,39 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection
+
+@section('script')
+<script>
+    function mudarCidade(response) {
+        console.log("{{route('buscar-cidade')}}");
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+            $.ajax({
+                type:'POST',
+                url:"{{route('buscar-cidade')}}",
+                dataType: 'JSON',
+                data: {
+                    state_id: response.value
+                },
+                success:function(res){
+                    // Caso ocorra sucesso, como faço para pegar o valor
+                    // que foi retornado pelo controller?
+                    $("#cidade_id").empty();
+                $.each( res, function(a, b) {
+                    $('#cidade_id').append($('<option>', {value: b['id'], text: b['nome']}));
+                });
+                },
+                error:function(){
+                  alert('Erro');
+                },
+            });
+    }
+    </script>
+@endsection
+

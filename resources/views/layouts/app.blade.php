@@ -12,12 +12,25 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    <style>
+         .ajust { justify-content: center !important;
+         }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -45,7 +58,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('usuario-create') }}">{{ __('Cadastro') }}</a>
                                 </li>
                             @endif
                         @else
@@ -71,10 +84,21 @@
                 </div>
             </div>
         </nav>
-
+        <div class="container-fluid">
+            <div class="row ajust" style="align-content: center">
+                @if (session('msg'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Alerta!</strong> {{ session('msg') }}
+                  </div>
+                    <p class="msg"></p>
+                @endif
+            </div>
+        </div>
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+        @yield('script')
 </body>
 </html>

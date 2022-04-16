@@ -64,3 +64,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 //comandos para rodar
 docker ps
 docker-compose exec workspace bash
+Atualizado

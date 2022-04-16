@@ -21,7 +21,7 @@ class User extends Authenticatable
         'nascimento',
         'telefone',
         'endereco',
-        'estado',
+        'uf_id',
         'cidade',
         'email',
         'password',

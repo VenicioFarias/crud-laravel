@@ -1,9 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\MunicipioController;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +31,9 @@ Route::post('/', 'UserController@store')->name('usuario-store');
 Route::get('/user/{id}/edit','UserController@edit')->name('usuario-edit');
 Route::put('/{id}', 'UserController@update')->name('usuario-update');
 Route::delete('/{id}', 'UserController@destroy')->name('usuario-delete');
+
+Route::post('/econtrar-cidade', 'MunicipioController@BuscarCidade')->name('buscar-cidade');
+
 
 Route::fallback(function(){
     return "Deu Erro !!";

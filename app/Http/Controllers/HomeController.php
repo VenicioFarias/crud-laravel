@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $listaUsuarios = User::get();
-        // dd($usuarios);
+        // dd($listaUsuarios);
         return view('home',compact('listaUsuarios'));
     }
 }

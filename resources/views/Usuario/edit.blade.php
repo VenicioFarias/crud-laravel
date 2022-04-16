@@ -95,46 +95,34 @@
                         </div>
 
                         <div class="form-group row">
-                            {{-- <select name="estado" id="estado">
+                            <label for="estado" class="col-md-4 col-form-label text-md-right m-2">{{ __('Estado') }}</label>
+                            <select data-token="{{ csrf_token() }}" onchange="mudarCidade(this)"  class="form-control-sm col-md-4" name="uf_id" id="uf_id">
                                 <option value="">selecione</option>
-                                @foreach ($estados as $estado )
-                                <option value="{{$estado->id}}">{{$estado->nome}}</option>
+                                @foreach ($listaEstados as $estado )
+                                <option value="{{$estado->CodigoUf}}">{{$estado->Nome}}</option>
                                 @endforeach
-                            </select> --}}
+                            </select>
+                        </div>
 
-                            <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
+                        <div class="form-group row">
+                            <label for="cidade" class="col-md-4 col-form-label text-md-right m-2">{{ __('Municipio') }}</label>
+                                <select class="form-control-sm col-md-4" name="cidade" id="cidade_id">
+                                    <option value="">selecione</option>
+                                </select>
+                        </div>
 
-                                <div class="col-md-6">
-                                    <input id="estado" type="text" value="{{$usuario->estado}}" class="form-control @error('estado') is-invalid @enderror" name="estado" value="{{ old('estado') }}" required autocomplete="estado" autofocus>
 
-                                    @error('estado')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
 
-                            </div>
 
-                            <div class="form-group row">
-                                <label for="cidade" class="col-md-4 col-form-label text-md-right">{{ __('Cidade') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="cidade" type="text" value="{{$usuario->cidade}}" class="form-control @error('cidade') is-invalid @enderror" name="cidade" value="{{ old('cidade') }}" required autocomplete="cidade" autofocus>
-
-                                        @error('cidade')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                        <div class="form-group row mb-0">
+                        <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary m-3">
                                     {{ __('Atualizar') }}
                                 </button>
+                                <a href="{{ route('home') }}" class="btn btn-danger" >Voltar</a>
+                            </div>
+                            <div class="col-md-4">
+
                             </div>
 
                         </div>
@@ -144,4 +132,35 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    function mudarCidade(response) {
+        console.log("{{route('buscar-cidade')}}");
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+            $.ajax({
+                type:'POST',
+                url:"{{route('buscar-cidade')}}",
+                dataType: 'JSON',
+                data: {
+                    state_id: response.value
+                },
+                success:function(res){
+                    // Caso ocorra sucesso, como faço para pegar o valor
+                    // que foi retornado pelo controller?
+                    $("#cidade_id").empty();
+                $.each( res, function(a, b) {
+                    $('#cidade_id').append($('<option>', {value: b['id'], text: b['nome']}));
+                });
+                },
+                error:function(){
+                  alert('Erro');
+                },
+            });
+    }
+    </script>
 @endsection
